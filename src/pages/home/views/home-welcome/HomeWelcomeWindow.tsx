@@ -41,7 +41,7 @@ function HomeWelcomeWindow() {
   return (
     <div className="home-welcome-container">
       <div className="welcome-content">
-        <h1 className="welcome-title">Bienvenido a VentasFama</h1>
+        <h1 className="welcome-title">Bienvenido</h1>
         <p className="welcome-subtitle">
           Selecciona la opción que deseas usar
         </p>
