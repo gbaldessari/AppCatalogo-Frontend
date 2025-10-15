@@ -1,0 +1,416 @@
+/**
+ * Hoja de estilos para la vista de productos.
+ *
+ * - Define estilos para la tabla de productos, botones, filtros y modales.
+ * - Incluye animaciones, estilos para inputs, botones de carga y previsualización de imágenes.
+ * - Asegura una experiencia visual consistente y responsiva en la administración de productos.
+ */
+
+/* Contenedor y wrapper similares a Vendors */
+.products-data-table-container {
+  background: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  width: 95%;
+  margin-bottom: 32px;
+}
+
+.products-table-wrapper {
+  overflow-x: auto;
+}
+
+.products-table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+/* Tabla con estilos similares a Vendors */
+.products-table {
+  border-collapse: collapse;
+  width: 100%; /* antes 95% */
+  color: #000;
+  background: #fff;
+  border-radius: 0;        /* moved to container */
+  box-shadow: none;        /* moved to container */
+  margin-bottom: 0;        /* handled by container */
+}
+
+.products-table th,
+.products-table td {
+  padding: 1rem; /* más aire como Vendors */
+  text-align: left;
+}
+
+.products-table th {
+  background: #f8fafc;        /* similar a vendors */
+  color: #374151;
+  font-weight: 600;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+.products-table tr {
+  border-bottom: 1px solid #f1f5f9; /* línea sutil como Vendors */
+  transition: background 0.2s;
+}
+
+.products-table tr:hover {
+  background: #f8fafc;
+}
+
+.products-table td {
+  vertical-align: top;
+}
+
+/* Imagen consistente */
+.products-table img {
+  border-radius: 4px;
+  border: 1px solid #e2e8f0; /* tono vendors */
+  background: #fafafa;
+}
+
+/* Acciones (se mantienen verticales pero con look limpio) */
+.products-table td.actions-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: stretch;
+  min-width: 120px;
+}
+
+/* Botones (puedes mantener tu color base, pero armonizamos sombras y hover) */
+.products-table button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 0.375rem;
+  padding: 0.6rem 0;
+  margin: 0;
+  cursor: pointer;
+  font-size: 0.95em;
+  font-weight: 500;
+  width: 100%;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.products-table button:hover {
+  background: #1d4ed8; /* tono cercano a vendors */
+}
+
+/* Filtros en header (mantener, solo asegurar contraste como Vendors) */
+.products-table thead tr:nth-child(2) th input {
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  padding: 7px 10px;
+  font-size: 0.98em;
+  background: #f8fafc;
+  color: #222;
+  width: 100%;
+  transition: border 0.18s, background 0.18s;
+  outline: none;
+  margin: 2px 0;
+}
+
+.products-table thead tr:nth-child(2) th input:focus {
+  border-color: #2563eb;
+  background: #fff;
+}
+.create-product-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 32px;
+  font-size: 1.08em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.07);
+  letter-spacing: 0.01em;
+  outline: none;
+  display: inline-block;
+}
+
+.create-product-btn:hover,
+.create-product-btn:focus {
+  background: #1742a7;
+}
+
+.delete-product-btn {
+  background: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 12px 32px;
+  font-size: 1.08em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(231, 76, 60, 0.07);
+  letter-spacing: 0.01em;
+  outline: none;
+}
+
+.delete-product-btn:hover,
+.delete-product-btn:focus {
+  background: #c0392b;
+}
+
+/* Control de filas por página */
+.products-rows-control {
+  display: flex;
+  align-items: center;
+  margin: 2rem;
+  gap: 0.75rem;
+  color: #374151;
+  font-size: 0.875rem;
+  background-color: white;
+  padding: 2rem;
+  border-radius: 8px;
+
+}
+
+.products-rows-select {
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  background: white;
+  color: #374151;
+  padding: 0.5rem 0.75rem;
+}
+
+.products-rows-select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Paginación */
+.products-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  gap: 0.75rem;
+  background: #ffffff;
+  border-top: 1px solid #e5e7eb;
+}
+
+.products-page-info {
+  color: #374151;
+  font-size: 0.875rem;
+}
+
+.products-page-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.products-btn-page {
+  background: #fff;
+  color: #374151;
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  font-size: 0.875rem;
+}
+
+.products-btn-page:hover:not(:disabled) {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+}
+
+.products-btn-page:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Modal - asegurar contraste y legibilidad */
+.modal.admin-modal {
+  background: #fff;
+  color: #1e293b; /* texto general del modal */
+  border-radius: 14px;
+}
+
+.modal.admin-modal h2 {
+  color: #1e293b;
+}
+
+.modal.admin-modal p {
+  color: #475569;
+}
+
+.modal.admin-modal label {
+  color: #111827;
+  font-weight: 500;
+}
+
+.modal.admin-modal input,
+.modal.admin-modal select,
+.modal.admin-modal textarea {
+  color: #111827;              /* texto visible */
+  background: #f8fafc;         /* fondo claro por defecto */
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 1em;
+  outline: none;
+  transition: border 0.18s, background 0.18s;
+}
+
+.modal.admin-modal input:focus,
+.modal.admin-modal select:focus,
+.modal.admin-modal textarea:focus {
+  border-color: #2563eb;
+  background: #ffffff;         /* fondo blanco en foco */
+}
+
+.modal.admin-modal input::placeholder,
+.modal.admin-modal textarea::placeholder {
+  color: #64748b;              /* placeholder legible */
+}
+
+/* Inputs de fecha */
+.modal.admin-modal input[type="date"] {
+  color: #111827;
+  background: #f8fafc;
+}
+
+.modal.admin-modal input[type="date"]:focus {
+  background: #fff;
+}
+
+/* Checkbox */
+.modal.admin-modal input[type="checkbox"] {
+  accent-color: #2563eb;
+}
+
+/* Botón base de acciones en modales (fallback si no existe) */
+.submit-button {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 28px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.submit-button:hover:not(:disabled) {
+  background: #1742a7;
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Botón de subir imagen con estilo similar al de los modales */
+.file-upload-label {
+  display: inline-block;
+  margin: 0;
+  cursor: pointer;
+}
+
+.file-upload-label input[type="file"] {
+  display: none;
+}
+
+.file-upload-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 28px;
+  font-size: 1em;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.file-upload-btn:hover,
+.file-upload-btn:focus {
+  background: #1742a7;
+}
+
+/* Deshabilitado cuando el input está disabled */
+.file-upload-label input[type="file"]:disabled + .file-upload-btn {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Filtro Activo (isActive) */
+.products-filter-active {
+  border: 1px solid #d1d5db;
+  border-radius: 5px;
+  padding: 7px 10px;
+  background: #f8fafc;
+  color: #222;
+  outline: none;
+  cursor: pointer;
+  transition: border 0.18s, background 0.18s, color 0.18s, box-shadow 0.18s;
+}
+
+.products-filter-active:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+  box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+
+/* Estado según valor */
+.products-filter-active[value="si"] {
+  border-color: #16a34a;
+  background: #f0fdf4;
+  color: #065f46;
+}
+
+.products-filter-active[value="no"] {
+  border-color: #dc2626;
+  background: #fef2f2;
+  color: #7f1d1d;
+}
+
+.products-filter-active[value="si"]:focus {
+  box-shadow: 0 0 0 2px rgba(22,163,74,0.2);
+}
+
+.products-filter-active[value="no"]:focus {
+  box-shadow: 0 0 0 2px rgba(220,38,38,0.2);
+}
+
+/* Opciones (soporte variable entre navegadores) */
+.products-filter-active option[value="si"] {
+  color: #065f46;
+}
+
+.products-filter-active option[value="no"] {
+  color: #7f1d1d;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .create-product-header {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100vw;
+    min-width: 0;
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0 0.2rem;
+  }
+  .create-product-btn {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 1em;
+  }
+}

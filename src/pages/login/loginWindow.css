@@ -1,0 +1,177 @@
+/**
+ * Hoja de estilos para la ventana y formulario de inicio de sesión (LoginWindow y LoginForm).
+ *
+ * @remarks
+ * - Define el layout, colores y animaciones para la experiencia de login.
+ * - Incluye estilos responsivos y animaciones para el logo y el botón de carga.
+ */
+
+/* Contenedor principal de la ventana de login */
+.login-window {
+  display: flex;
+  flex-direction: column;
+  background-color: #00000018;
+  color: #fff;
+  font-family: 'Arial', sans-serif;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(54, 54, 54, 0.5);
+  text-align: center;
+  margin: auto;
+  width: 400px;
+}
+
+/* Logo animado de la aplicación */
+.logo {
+  width: 400px;
+  height: auto;
+  margin-bottom: 1rem;
+  margin-top: 5rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  filter: drop-shadow(0 0 5px rgba(163, 188, 255, 0.5));
+  animation: logoAnimation 4s infinite;
+}
+
+@keyframes logoAnimation {
+  0% {
+    filter: drop-shadow(0 0 0 rgba(163, 188, 255, 0.5));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 5px rgba(163, 188, 255, 0.5));
+  }
+
+  100% {
+    filter: drop-shadow(0 0 0 rgba(163, 188, 255, 0.5));
+  }
+}
+
+/* Contenedor del formulario de login */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+/* Título del formulario */
+.login-window h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Campos de entrada del formulario */
+.login-form-input {
+  padding: 1rem;
+  font-size: 1.2rem;
+  text-align: center;
+  border: 2px solid #f8ab12;
+  border-radius: 5px;
+  background-color: #ffffffff;
+  color: #000;
+}
+
+/* Botón de envío del formulario */
+.login-window .login-submit-button {
+  margin-top: 1rem;
+  padding: 1rem;
+  font-size: 1.5rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #f8ab12;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.login-window .login-submit-button:hover {
+  background-color: #ffbda1;
+}
+
+/* Estado de carga del botón de envío */
+.login-submit-button.loading {
+  background-color: #ffbda1;
+  cursor: not-allowed;
+  animation: loadingAnimation 1s infinite;
+}
+
+@keyframes loadingAnimation {
+  0% {
+    background-color: #ffbda1;
+  }
+
+  50% {
+    background-color: #f8ab12;
+  }
+
+  100% {
+    background-color: #ffbda1;
+  }
+}
+
+/* Botón para recuperar contraseña */
+.login-window .recover-password {
+  margin-top: 1rem;
+  font-size: 1rem;
+  border: none;
+  background-color: transparent;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+.login-window .recover-password:hover {
+  color: #000;
+}
+
+/* Spinner de carga dentro del botón */
+.login-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.login-spinner .login-dot {
+  width: 12px;
+  height: 12px;
+  background-color: #fff;
+  border-radius: 50%;
+  animation: loginDotAnimation 1.5s infinite ease-in-out;
+}
+
+.login-spinner .login-dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.login-spinner .login-dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.login-spinner .login-dot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+@keyframes loginDotAnimation {
+
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+
+  40% {
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 768px) {
+  .login-window {
+    zoom: 0.8;
+  }
+}

@@ -1,0 +1,100 @@
+/**
+ * Hoja de estilos para el componente LoadingScreen.
+ *
+ * @remarks
+ * - Centra y superpone la pantalla de carga sobre el contenido.
+ * - Define la animación y disposición de las bolas del spinner.
+ * - Permite cambiar el color del spinner según la ruta.
+ */
+
+.loading-screen {
+  /* Cubre toda la pantalla y centra el spinner */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.spinner-balls {
+  /* Contenedor del spinner animado */
+  position: relative;
+  width: 60px;
+  height: 60px;
+  animation: spin-balls 3s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ball {
+  /* Bolas individuales del spinner */
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #000000;
+  border-radius: 100%;
+  opacity: 0.85;
+}
+
+/* Variante blanca del spinner para ciertas rutas */
+.spinner-balls-white .ball {
+  background: #fff;
+}
+
+/* Posiciones de cada bola en el spinner */
+.ball1 {
+  top: 0;
+  left: 24px;
+}
+
+.ball2 {
+  top: 8px;
+  left: 42px;
+}
+
+.ball3 {
+  top: 24px;
+  left: 48px;
+}
+
+.ball4 {
+  top: 42px;
+  left: 42px;
+}
+
+.ball5 {
+  top: 48px;
+  left: 24px;
+}
+
+.ball6 {
+  top: 42px;
+  left: 8px;
+}
+
+.ball7 {
+  top: 24px;
+  left: 0;
+}
+
+.ball8 {
+  top: 8px;
+  left: 8px;
+}
+
+/* Animación de rotación del spinner */
+@keyframes spin-balls {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

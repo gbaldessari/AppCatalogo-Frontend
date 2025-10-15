@@ -1,0 +1,53 @@
+/**
+ * Hoja de estilos global para la aplicación VentasFama.
+ *
+ * @remarks
+ * - Define variables y estilos base para fuentes, colores y renderizado.
+ * - Establece estilos para enlaces, botones, encabezados y el body.
+ * - Asegura una apariencia consistente y responsiva en toda la aplicación.
+ */
+
+/* Variables y estilos base */
+:root {
+  /* Familia de fuentes principal */
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  place-items: center;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background: linear-gradient(135deg, #ffe0a3, #00a3e0);
+  background-attachment: fixed;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Estilos globales para el body */
+body {
+  margin: 0;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* Encabezados principales */
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+/* Estilos para botones */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input:focus {
+  outline: none;
+}

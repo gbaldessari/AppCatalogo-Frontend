@@ -1,0 +1,53 @@
+/**
+ * Hoja de estilos para la ventana de bienvenida (WelcomeWindow).
+ *
+ * - Define el layout y estilos para la cuadrícula principal de navegación.
+ * - Estiliza los botones principales de acceso a las secciones de la aplicación.
+ * - Incluye efectos de hover y responsividad.
+ */
+
+.welcome-body {
+  justify-content: center;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.welcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  max-width: 700px;
+  margin: 4rem auto 0 auto;
+  padding: 0 2rem;
+}
+
+.welcome-grid-btn {
+  background: #f8ab12;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 2.5rem 1rem;
+  box-shadow: 0 4px 12px rgba(54,54,54,0.08);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.welcome-grid-btn:hover {
+  background: #ffbda1;
+  color: #fff;
+}
+
+@media (max-width: 750px) {
+  .welcome-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+    margin-top: 2rem;
+  }
+  .welcome-grid-btn {
+    padding: 1.5rem 0.5rem;
+    font-size: 1.1rem;
+  }
+}

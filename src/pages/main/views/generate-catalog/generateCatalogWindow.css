@@ -1,0 +1,342 @@
+/**
+ * Hoja de estilos para la ventana de generación de catálogos.
+ *
+ * - Define estilos para inputs de imágenes, tabla de configuración de categorías y botones.
+ * - Incluye estilos responsivos, animaciones y personalización de checkboxes e imágenes.
+ */
+
+/* Margen general para la ventana principal */
+.generate-catalog-main-container {
+  margin: 32px auto;
+  max-width: 80%;
+  padding: 24px 32px 40px 32px;
+  background: #00000020;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+}
+
+/* Espaciado entre bloques de inputs de imagen */
+.image-inputs-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.image-input-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 180px;
+  max-width: 220px;
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 18px 12px 12px 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  margin-bottom: 12px;
+}
+
+.image-label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #222;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.image-input {
+  display: none;
+}
+
+.image-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font-size: 1em;
+  font-weight: 500;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: background 0.18s;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+}
+
+.image-btn:hover,
+.image-btn:focus {
+  background: #1742a7;
+}
+
+.image-preview {
+  margin-top: 12px;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid #e1e1e1;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.extra-images-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.catalog-submit-btn {
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 36px;
+  font-size: 1.08em;
+  font-weight: 600;
+  margin: 32px 0 16px 0;
+  cursor: pointer;
+  transition: background 0.18s, box-shadow 0.18s;
+  box-shadow: 0 2px 8px rgba(37,99,235,0.07);
+  letter-spacing: 0.01em;
+  outline: none;
+  display: inline-block;
+}
+
+.catalog-submit-btn:hover,
+.catalog-submit-btn:focus {
+  background: #1742a7;
+}
+
+/* --- Estilos adaptados para CategoryColorTable --- */
+.category-color-table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+.category-color-table {
+  border-collapse: collapse;
+  width: 95%;
+  color: #000;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  margin-bottom: 32px;
+}
+
+.category-color-table th,
+.category-color-table td {
+  padding: 10px 14px;
+  text-align: left;
+}
+
+/* Anchos fijos para columnas específicas */
+.category-color-table th:nth-child(1),
+.category-color-table td:nth-child(1) {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+}
+.category-color-table th:nth-child(2),
+.category-color-table td:nth-child(2) {
+  width: 120px;
+  min-width: 100px;
+  max-width: 140px;
+}
+.category-color-table th:nth-child(3),
+.category-color-table td:nth-child(3) {
+  width: 120px;
+  min-width: 100px;
+  max-width: 120px;
+}
+.category-color-table th:nth-child(4),
+.category-color-table td:nth-child(4) {
+  width: 120px;
+  min-width: 100px;
+  max-width: 120px;
+}
+.category-color-table th:nth-child(5),
+.category-color-table td:nth-child(5),
+.category-color-table th:nth-child(6),
+.category-color-table td:nth-child(6) {
+  width: 120px;
+  min-width: 100px;
+  max-width: 120px;
+}
+
+.category-color-table th {
+  background: #f5f6fa;
+  color: #222;
+  font-weight: 600;
+  border-bottom: 2px solid #e1e1e1;
+}
+
+.category-color-table tr {
+  border-bottom: 1px solid #ececec;
+  transition: background 0.2s;
+}
+
+.category-color-table tr:hover {
+  background: #f0f4fa;
+}
+
+.category-color-table td {
+  vertical-align: middle;
+}
+
+/* Estilo personalizado para los checkboxes de la tabla de categorías */
+.category-color-table-checkbox,
+.category-color-table input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #2563eb;
+  border-radius: 4px;
+  border: 1.5px solid #bfc7d1;
+  background-color: #fff;
+  transition: box-shadow 0.15s;
+  box-shadow: 0 1px 3px rgba(37,99,235,0.06);
+  cursor: pointer;
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.category-color-table th input[type="checkbox"] {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+/* Espaciado para el subtítulo de colores */
+.generate-catalog-subtitle {
+  margin-bottom: 16px;
+  margin-top: 24px;
+}
+
+.clickable-image-preview {
+  cursor: pointer;
+}
+
+.category-color-table-scroll-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  box-sizing: border-box;
+}
+
+/* Scroll horizontal para la tabla de categorías en pantallas pequeñas */
+@media (max-width: 900px) {
+  .category-color-table {
+    min-width: 900px;
+    max-width: 80%;
+    display: table;
+    table-layout: fixed;
+  }
+  .category-color-table-scroll-wrapper {
+    width: 100vw;
+    max-width: 100vw;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .category-color-table-container {
+    align-items: flex-start;
+    width: 100vw;
+    box-sizing: border-box;
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .category-color-table th,
+  .category-color-table td {
+    padding: 7px 6px;
+    word-break: break-word;
+  }
+}
+
+/* Personalización de los inputs del ChromePicker de react-color */
+.chrome-picker input,
+.chrome-picker input[type="text"] {
+  background: #f8fafc !important;
+  color: #222 !important;
+  border-radius: 4px !important;
+  border: 1px solid #cbd5e1 !important;
+  font-weight: 500;
+}
+
+/* Opcional: mejora el contraste de los labels */
+.chrome-picker label {
+  color: #222 !important;
+}
+
+/* Opcional: mejora el fondo del panel del picker */
+.chrome-picker {
+  background: #fff !important;
+  border-radius: 8px !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.10) !important;
+}
+
+/* Estilos mínimos para el handle de arrastre */
+.drag-handle {
+  display: inline-block;
+  font-weight: 700;
+  color: #64748b;
+  cursor: grab;
+  user-select: none;
+}
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* Opcional: pequeña separación para el handle en la primera columna */
+.category-color-table td:nth-child(1) .drag-handle {
+  margin-right: 6px;
+}
+
+/* Input para nombre de archivo */
+.filename-input-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.filename-input-row label {
+  font-weight: 600;
+  color: #222;
+  min-width: 160px;
+}
+.filename-text-input {
+  flex: 1 1 320px;
+  max-width: 420px;
+  padding: 10px 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #111;
+  outline: none;
+  transition: border 0.18s, box-shadow 0.18s;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.04);
+}
+.filename-text-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+}
+
+/* Tarjeta para el nombre de archivo */
+.filename-card {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 16px 18px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+  margin-bottom: 24px;
+}
+
+@media (max-width: 600px) {
+  .filename-input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
