@@ -6,48 +6,91 @@
  * - Incluye efectos de hover y responsividad.
  */
 
-.welcome-body {
+.catalog-welcome-body {
+  align-items: center;
   justify-content: center;
-  padding: 2rem;
+  padding: 3rem 1.5rem;
   display: flex;
-  flex-direction: row;
-}
-
-.welcome-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 2rem;
+  flex-direction: column;
   width: 100%;
-  max-width: 700px;
-  margin: 4rem auto 0 auto;
-  padding: 0 2rem;
 }
 
-.welcome-grid-btn {
-  background: #f8ab12;
+.catalog-welcome-content {
+  text-align: center;
   color: #fff;
-  border-radius: 10px;
-  font-size: 1.3rem;
-  font-weight: 600;
-  padding: 2.5rem 1rem;
-  box-shadow: 0 4px 12px rgba(54,54,54,0.08);
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.welcome-grid-btn:hover {
-  background: #ffbda1;
-  color: #fff;
+
+.catalog-welcome-title {
+  font-size: 2.8rem;
+  margin-bottom: 0.75rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+}
+
+.catalog-welcome-subtitle {
+  font-size: 1.15rem;
+  margin-bottom: 2.5rem;
+  opacity: 0.9;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.catalog-welcome-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+  max-width: 960px;
+}
+
+.catalog-welcome-card {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 1rem;
+  padding: 1.75rem 1.25rem;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.catalog-welcome-card:hover {
+  transform: translateY(-6px);
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 12px 26px rgba(0, 0, 0, 0.2);
+}
+
+.catalog-welcome-card-icon {
+  font-size: 2.4rem;
+}
+
+.catalog-welcome-card-title {
+  font-size: 1.35rem;
+  font-weight: 600;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.catalog-welcome-card-description {
+  font-size: 0.95rem;
+  opacity: 0.9;
+  line-height: 1.4;
 }
 
 @media (max-width: 750px) {
-  .welcome-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-    padding: 0 1rem;
-    margin-top: 2rem;
+  .catalog-welcome-body {
+    padding: 2rem 1rem;
   }
-  .welcome-grid-btn {
-    padding: 1.5rem 0.5rem;
-    font-size: 1.1rem;
+
+  .catalog-welcome-title {
+    font-size: 2.2rem;
   }
 }

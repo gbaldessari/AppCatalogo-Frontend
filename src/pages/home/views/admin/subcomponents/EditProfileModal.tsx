@@ -41,9 +41,9 @@ export function EditProfileModal({
     <div className="modal-overlay" onClick={e => { if (e.target === e.currentTarget) onClose(); }}>
       <div className="modal admin-modal">
         <h2>Editar Perfil</h2>
-        <div className="modal-actions modal-editprofile-fields">
-          <div className="modal-editprofile-field">
-            <label>Nombre:</label>
+        <div className="admin-modal-form">
+          <div className="admin-modal-field">
+            <label>Nombre</label>
             <input
               type="text"
               value={firstName}
@@ -53,8 +53,8 @@ export function EditProfileModal({
               disabled={loading}
             />
           </div>
-          <div className="modal-editprofile-field">
-            <label>Apellido:</label>
+          <div className="admin-modal-field">
+            <label>Apellido</label>
             <input
               type="text"
               value={lastName}

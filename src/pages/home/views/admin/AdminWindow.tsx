@@ -55,6 +55,8 @@ function AdminWindow() {
     password: "",
   });
   const [registerLoading, setRegisterLoading] = useState(false);
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
+  const [registerModalOpen, setRegisterModalOpen] = useState(false);
 
   // Estados para modales de confirmación
   const [confirmModal, setConfirmModal] = useState<null | {
@@ -77,6 +79,18 @@ function AdminWindow() {
       lastName,
       loading: false,
     });
+  };
+
+  const handleClosePasswordModal = () => {
+    if (loadingPassword) return;
+    setPasswordModalOpen(false);
+    setCurrentPassword("");
+    setNewPassword("");
+  };
+
+  const handleCloseRegisterModal = () => {
+    if (registerLoading) return;
+    setRegisterModalOpen(false);
   };
 
   // Función para guardar cambios desde el modal
@@ -113,31 +127,33 @@ function AdminWindow() {
     }, 2000);
   };
 
-  const handleChangePassword = async () => {
+  const handleChangePassword = () => {
+    if (!currentPassword || !newPassword) {
+      setErrorMessage("Por favor, complete ambos campos de contraseña.");
+      setShowError(true);
+      setTimeout(() => setShowError(false), 2000);
+      return;
+    }
+
+    try {
+      passwordSchema.parse(newPassword);
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        setErrorMessage(e.errors?.[0]?.message || "Contraseña inválida.");
+      } else {
+        setErrorMessage("Contraseña inválida.");
+      }
+      setShowError(true);
+      setTimeout(() => setShowError(false), 2000);
+      return;
+    }
+
+    setPasswordModalOpen(false);
     setConfirmModal({
       type: "password",
       onConfirm: async () => {
         setConfirmModal((prev) => prev && { ...prev, loading: true });
-        try {
-          passwordSchema.parse(newPassword);
-        } catch (e) {
-          if (e instanceof z.ZodError) {
-            setErrorMessage(e.errors?.[0]?.message || "Contraseña inválida.");
-          } else {
-            setErrorMessage("Contraseña inválida.");
-          }
-          setShowError(true);
-          setTimeout(() => setShowError(false), 2000);
-          setConfirmModal(null);
-          return;
-        }
-        if (!currentPassword || !newPassword) {
-          setErrorMessage("Por favor, complete ambos campos de contraseña.");
-          setShowError(true);
-          setTimeout(() => setShowError(false), 2000);
-          setConfirmModal(null);
-          return;
-        }
+        setLoadingPassword(true);
         const accessToken = localStorage.getItem("accessToken") || "";
         const response = await changePassword(accessToken, { currentPassword, newPassword });
         if (response.success) {
@@ -160,34 +176,37 @@ function AdminWindow() {
     });
   };
 
-  const handleRegisterUser = async () => {
+  const handleRegisterUser = () => {
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    if (!registerForm.firstName || !registerForm.lastName) {
+      setErrorMessage("Por favor, complete nombre y apellido.");
+      setShowError(true);
+      setTimeout(() => setShowError(false), 2000);
+      return;
+    }
+
+    try {
+      emailSchema.parse(registerForm.email);
+      passwordSchema.parse(registerForm.password);
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        setErrorMessage(e.errors?.[0]?.message || "Datos inválidos.");
+      } else {
+        setErrorMessage("Datos inválidos.");
+      }
+      setShowError(true);
+      setTimeout(() => setShowError(false), 2000);
+      return;
+    }
+
+    setRegisterModalOpen(false);
     setConfirmModal({
       type: "register",
       onConfirm: async () => {
         setConfirmModal((prev) => prev && { ...prev, loading: true });
-        setErrorMessage("");
-        setSuccessMessage("");
-        try {
-          emailSchema.parse(registerForm.email);
-          passwordSchema.parse(registerForm.password);
-          if (!registerForm.firstName || !registerForm.lastName) {
-            setErrorMessage("Por favor, complete nombre y apellido.");
-            setShowError(true);
-            setTimeout(() => setShowError(false), 2000);
-            setConfirmModal(null);
-            return;
-          }
-        } catch (e) {
-          if (e instanceof z.ZodError) {
-            setErrorMessage(e.errors?.[0]?.message || "Datos inválidos.");
-          } else {
-            setErrorMessage("Datos inválidos.");
-          }
-          setShowError(true);
-          setTimeout(() => setShowError(false), 2000);
-          setConfirmModal(null);
-          return;
-        }
+        setRegisterLoading(true);
         const accessToken = localStorage.getItem("accessToken") || "";
         const response = await register(accessToken, registerForm);
         if (response.success) {
@@ -247,6 +266,9 @@ function AdminWindow() {
             setNewPassword={setNewPassword}
             loading={loadingPassword}
             onChangePassword={handleChangePassword}
+            isOpen={passwordModalOpen}
+            onOpenModal={() => setPasswordModalOpen(true)}
+            onCloseModal={handleClosePasswordModal}
           />
           {/* Sección para registrar nuevo administrador - solo para admins */}
           {isAdmin === "true" && (
@@ -255,6 +277,9 @@ function AdminWindow() {
               setRegisterForm={setRegisterForm}
               loading={registerLoading}
               onRegister={handleRegisterUser}
+              isOpen={registerModalOpen}
+              onOpenModal={() => setRegisterModalOpen(true)}
+              onCloseModal={handleCloseRegisterModal}
             />)}
           {/* Modal de confirmación para acciones críticas */}
           <ConfirmModal

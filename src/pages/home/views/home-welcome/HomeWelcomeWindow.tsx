@@ -40,9 +40,9 @@ function HomeWelcomeWindow() {
 
   return (
     <div className="home-welcome-container">
-      <div className="welcome-content">
-        <h1 className="welcome-title">Bienvenido</h1>
-        <p className="welcome-subtitle">
+      <div className="home-welcome-content">
+        <h1 className="home-welcome-title">Bienvenido</h1>
+        <p className="home-welcome-subtitle">
           Selecciona la opción que deseas usar
         </p>
 
