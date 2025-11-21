@@ -170,6 +170,36 @@
   }
 }
 
+/* Estilos para la página de login */
+.login-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+/* Estilos para el pie de página del login */
+.login-footer {
+  margin-top: 5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #fff;
+  opacity: 0.8;
+}
+
+.login-footer a {
+  color: #FFF;
+  text-decoration: none;
+}
+
+.login-footer a:hover {
+  color: #000;
+}
+
+.login-heart {
+  color: #ff0000;
+}
+
 @media (max-width: 768px) {
   .login-window {
     zoom: 0.8;

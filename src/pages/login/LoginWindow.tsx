@@ -100,7 +100,7 @@ function LoginWindow() {
   };
 
   return (
-    <div>
+    <div className="login-page">
       {/* Alertas de error y éxito */}
       <Alert type="error" message={error} show={showError} />
       <Alert type="success" message={success} show={showSuccess} />
@@ -125,6 +125,12 @@ function LoginWindow() {
           Recuperar Contraseña
         </button>
       </div>
+      <footer className="login-footer">
+        Made with <span className="login-heart">♥</span> by{" "}
+        <a href="https://github.com/gbaldessari" target="_blank" rel="noreferrer">
+          Giacomo Baldessari
+        </a>
+      </footer>
     </div>
   );
 }

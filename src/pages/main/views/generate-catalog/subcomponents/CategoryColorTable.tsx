@@ -14,6 +14,7 @@
  * @returns La tabla de configuración de categorías para el catálogo.
  */
 import React, { useMemo, useState, useRef } from "react";
+import { createPortal } from "react-dom";
 import type { CategoryPayload } from "../../../../../services/generate-catalog/types/GenerateCatalog.type";
 import type { GetCategoryResponse } from "../../../../../services/categories/types/GetCategory.type";
 import { ChromePicker, type ColorResult } from "react-color";
@@ -143,6 +144,7 @@ const CategoryColorTable: React.FC<Props> = ({
   const [colorPickerOpen, setColorPickerOpen] = useState<{ [catId: string]: boolean }>({});
   const pickerRefs = useRef<{ [catId: string]: HTMLDivElement | null }>({});
   const [pickerPosition, setPickerPosition] = useState<{ [catId: string]: { top: number; left: number } }>({});
+  const portalTarget = typeof document !== "undefined" ? document.body : null;
 
   // Cierra el picker si se hace clic fuera
   React.useEffect(() => {
@@ -379,19 +381,18 @@ const CategoryColorTable: React.FC<Props> = ({
                         title="Seleccionar color"
                         onClick={e => {
                           if (catPayload.selected) {
-                            // Calcula la posición absoluta del botón
-                            const rect = (e.target as HTMLElement).getBoundingClientRect();
-                            const pickerHeight = 220; // Aproximado, puedes ajustar
-                            const pickerWidth = 240; // Aproximado, puedes ajustar
-                            let top = rect.bottom + 8;
-                            let left = rect.left;
-                            // Si se sale por abajo, muévelo hacia arriba
-                            if (top + pickerHeight > window.innerHeight) {
-                              top = rect.top - pickerHeight - 8;
+                            const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                            const pickerHeight = 220;
+                            const pickerWidth = 240;
+                            const viewportHeight = window.innerHeight;
+                            const viewportWidth = window.innerWidth;
+                            let top = rect.bottom + window.scrollY + 8;
+                            if (rect.bottom + pickerHeight > viewportHeight) {
+                              top = rect.top + window.scrollY - pickerHeight - 8;
                             }
-                            // Si se sale por la derecha, muévelo hacia la izquierda
-                            if (left + pickerWidth > window.innerWidth) {
-                              left = window.innerWidth - pickerWidth - 16;
+                            let left = rect.left + window.scrollX;
+                            if (left + pickerWidth > viewportWidth) {
+                              left = window.scrollX + viewportWidth - pickerWidth - 16;
                             }
                             setPickerPosition(prev => ({
                               ...prev,
@@ -405,26 +406,32 @@ const CategoryColorTable: React.FC<Props> = ({
                         }}
                       />
                       {/* Mostrar el picker si está abierto */}
-                      {colorPickerOpen[catPayload._id] && catPayload.selected && pickerPosition[catPayload._id] && (
-                        <div
-                          ref={el => { pickerRefs.current[catPayload._id] = el; }}
-                          style={{
-                            position: "fixed",
-                            top: pickerPosition[catPayload._id].top,
-                            left: pickerPosition[catPayload._id].left,
-                            zIndex: 1000
-                          }}
-                        >
-                          <ChromePicker
-                            color={rgba}
-                            onChange={(color: ColorResult) => {
-                              const { r, g, b, a } = color.rgb;
-                              onColorChange(catPayload._id, `rgba(${r},${g},${b},${a !== undefined ? Number(a.toFixed(2)) : 1})`);
+                      {colorPickerOpen[catPayload._id] && catPayload.selected && pickerPosition[catPayload._id] && portalTarget &&
+                        createPortal(
+                          <div
+                            ref={el => { pickerRefs.current[catPayload._id] = el; }}
+                            style={{
+                              position: "absolute",
+                              top: pickerPosition[catPayload._id].top,
+                              left: pickerPosition[catPayload._id].left,
+                              zIndex: 1000
                             }}
-                            disableAlpha={false}
-                          />
-                        </div>
-                      )}
+                          >
+                            <ChromePicker
+                              color={rgba}
+                              onChange={(color: ColorResult) => {
+                                const { r, g, b, a } = color.rgb;
+                                onColorChange(
+                                  catPayload._id,
+                                  `rgba(${r},${g},${b},${a !== undefined ? Number(a.toFixed(2)) : 1})`
+                                );
+                              }}
+                              disableAlpha={false}
+                            />
+                          </div>,
+                          portalTarget
+                        )
+                      }
                     </div>
                   </td>
                   {/* Mostrar siempre el color en hexadecimal */}
