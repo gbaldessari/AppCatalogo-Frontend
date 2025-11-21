@@ -177,11 +177,25 @@
 
 .category-color-table tr {
   border-bottom: 1px solid #ececec;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.18s ease, box-shadow 0.18s ease;
+  position: relative;
+  will-change: transform;
 }
 
 .category-color-table tr:hover {
   background: #f0f4fa;
+}
+
+.category-color-table tr.is-dragging {
+  opacity: 0.65;
+  transform: scale(0.995);
+  background: #dbeafe;
+  box-shadow: 0 10px 22px rgba(37,99,235,0.25);
+  cursor: grabbing;
+}
+
+.category-color-table tr.is-shifting {
+  box-shadow: inset 0 0 0 2px #bfdbfe;
 }
 
 .category-color-table td {

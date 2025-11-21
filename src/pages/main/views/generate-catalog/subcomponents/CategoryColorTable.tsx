@@ -162,9 +162,77 @@ const CategoryColorTable: React.FC<Props> = ({
     return () => document.removeEventListener("mousedown", handleClick);
   }, [colorPickerOpen]);
 
-  // --- NUEVO: Estado para drag & drop ---
+
+  const rowRefs = useRef<(HTMLTableRowElement | null)[]>([]);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const [dragCursorY, setDragCursorY] = useState(0);
+  const [dragOffsetY, setDragOffsetY] = useState(0);
+  const [dragRowTop, setDragRowTop] = useState(0);
+  const [dragRowHeight, setDragRowHeight] = useState(0);
+
+  const handlePointerDown = (event: React.PointerEvent<HTMLSpanElement>, index: number) => {
+    if (dragIndex !== null) return;
+    const row = rowRefs.current[index];
+    if (!row) return;
+    const rect = row.getBoundingClientRect();
+    setDragIndex(index);
+    setDragOverIndex(index);
+    setDragCursorY(event.clientY);
+    setDragOffsetY(event.clientY - rect.top);
+    setDragRowTop(rect.top);
+    setDragRowHeight(rect.height);
+    event.preventDefault();
+    event.stopPropagation();
+  };
+
+  React.useEffect(() => {
+    if (dragIndex === null || !categoriesPayload.length) return;
+    const handlePointerMove = (event: PointerEvent) => {
+      event.preventDefault();
+      const clientY = event.clientY;
+      setDragCursorY(clientY);
+      let nextIndex = dragIndex;
+      let found = false;
+      for (let idx = 0; idx < categoriesPayload.length; idx++) {
+        if (idx === dragIndex) continue;
+        const ref = rowRefs.current[idx];
+        if (!ref) continue;
+        const rect = ref.getBoundingClientRect();
+        const midpoint = rect.top + rect.height / 2;
+        if (clientY < midpoint) {
+          nextIndex = idx < dragIndex ? idx : idx - 1;
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        nextIndex = categoriesPayload.length - 1;
+      }
+      nextIndex = Math.max(0, Math.min(categoriesPayload.length - 1, nextIndex));
+      setDragOverIndex(prev => (prev === nextIndex ? prev : nextIndex));
+    };
+    const handlePointerUp = () => {
+      if (dragIndex !== null && dragOverIndex !== null && dragOverIndex !== dragIndex) {
+        onReorder(dragIndex, dragOverIndex);
+      }
+      setDragIndex(null);
+      setDragOverIndex(null);
+      setDragCursorY(0);
+    };
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
+    const prevSelect = document.body.style.userSelect;
+    const prevCursor = document.body.style.cursor;
+    document.body.style.userSelect = "none";
+    document.body.style.cursor = "grabbing";
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+      document.body.style.userSelect = prevSelect;
+      document.body.style.cursor = prevCursor;
+    };
+  }, [categoriesPayload.length, dragIndex, dragOverIndex, onReorder]);
 
   return (
     <div className="category-color-table-container">
@@ -234,37 +302,50 @@ const CategoryColorTable: React.FC<Props> = ({
 
               return (
                 <tr
+                  ref={el => { rowRefs.current[index] = el; }}
                   key={catPayload._id}
-                  draggable
-                  onDragStart={e => {
-                    setDragIndex(index);
-                    e.dataTransfer.effectAllowed = "move";
-                  }}
-                  onDragOver={e => {
-                    e.preventDefault();
-                    setDragOverIndex(index);
-                  }}
-                  onDragEnd={() => {
-                    setDragIndex(null);
-                    setDragOverIndex(null);
-                  }}
-                  onDrop={e => {
-                    e.preventDefault();
-                    if (dragIndex !== null && dragIndex !== index) {
-                      onReorder(dragIndex, index);
+                  className={[
+                    "category-color-row",
+                    dragIndex === index ? "is-dragging" : "",
+                    dragIndex !== null &&
+                      dragOverIndex !== null &&
+                      index !== dragIndex &&
+                      (
+                        (dragIndex < dragOverIndex && index > dragIndex && index <= dragOverIndex) ||
+                        (dragIndex > dragOverIndex && index >= dragOverIndex && index < dragIndex)
+                      )
+                      ? "is-shifting"
+                      : ""
+                  ].filter(Boolean).join(" ")}
+                  style={(() => {
+                    const style: React.CSSProperties = {};
+                    const currentRect = rowRefs.current[index]?.getBoundingClientRect();
+                    const shiftAmount = dragRowHeight || currentRect?.height || 0;
+                    if (dragIndex === index) {
+                      style.transform = `translateY(${dragCursorY - dragRowTop - dragOffsetY}px)`;
+                      style.pointerEvents = "none";
+                      style.transition = "none";
+                      style.zIndex = 3;
+                    } else if (dragIndex !== null && dragOverIndex !== null && shiftAmount) {
+                      if (dragIndex < dragOverIndex && index > dragIndex && index <= dragOverIndex) {
+                        style.transform = `translateY(${-shiftAmount}px)`;
+                      } else if (dragIndex > dragOverIndex && index >= dragOverIndex && index < dragIndex) {
+                        style.transform = `translateY(${shiftAmount}px)`;
+                      }
                     }
-                    setDragIndex(null);
-                    setDragOverIndex(null);
-                  }}
-                  style={{
-                    outline: dragOverIndex === index ? "2px dashed #2563eb66" : "none",
-                    background: dragIndex === index ? "#f8fafc" : undefined
-                  }}
+                    return style;
+                  })()}
                   title="Arrastra para reordenar"
                 >
                   <td>
                     {/* Handle + checkbox */}
-                    <span className="drag-handle" title="Arrastrar para reordenar">≡</span>
+                    <span
+                      className="drag-handle"
+                      title="Arrastrar para reordenar"
+                      onPointerDown={e => handlePointerDown(e, index)}
+                    >
+                      ≡
+                    </span>
                     <input
                       type="checkbox"
                       checked={!!catPayload.selected}

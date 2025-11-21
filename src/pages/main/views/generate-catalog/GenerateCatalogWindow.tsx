@@ -50,6 +50,21 @@ function GenerateCatalogWindow() {
   const [visiblePrices, setVisiblePrices] = useState(true);
   const [visibleOffers, setVisibleOffers] = useState(true);
 
+  const CATEGORY_ORDER_STORAGE_KEY = "generateCatalogCategoryOrder";
+
+  const loadStoredCategoryOrder = (): string[] => {
+    try {
+      const stored = localStorage.getItem(CATEGORY_ORDER_STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const persistCategoryOrder = (orderedIds: string[]) => {
+    localStorage.setItem(CATEGORY_ORDER_STORAGE_KEY, JSON.stringify(orderedIds));
+  };
+
   const fetchCategories = async () => {
     const token = localStorage.getItem("accessToken") || "";
     if (!token) {
@@ -61,16 +76,23 @@ function GenerateCatalogWindow() {
     setCategoriesLoading(true);
     const result = await getCategories(token);
     if (result.success && result.data) {
-      setCategories(result.data);
-      setCategoriesPayload(
-        result.data.map(cat => ({
-          _id: cat._id,
-          color: "#000000",
-          frontPage: undefined,
-          backgroundImage: undefined,
-          selected: false
-        }))
-      );
+      const storedOrder = loadStoredCategoryOrder();
+      const originalPositions = new Map(result.data.map((cat, index) => [cat._id, index]));
+      const orderIndex = (id: string) => {
+        const storedIndex = storedOrder.indexOf(id);
+        return storedIndex === -1 ? storedOrder.length + (originalPositions.get(id) ?? 0) : storedIndex;
+      };
+      const sortedCategories = [...result.data].sort((a, b) => orderIndex(a._id) - orderIndex(b._id));
+      setCategories(sortedCategories);
+      const nextPayload = sortedCategories.map(cat => ({
+        _id: cat._id,
+        color: "#000000",
+        frontPage: undefined,
+        backgroundImage: undefined,
+        selected: false
+      }));
+      setCategoriesPayload(nextPayload);
+      persistCategoryOrder(sortedCategories.map(cat => cat._id));
     } else {
       setCategories([]);
       setCategoriesPayload([]);
@@ -171,6 +193,14 @@ function GenerateCatalogWindow() {
       const next = [...prev];
       const [moved] = next.splice(fromIndex, 1);
       next.splice(toIndex, 0, moved);
+      persistCategoryOrder(next.map(cat => cat._id));
+      return next;
+    });
+    setCategories(prev => {
+      if (!prev.length) return prev;
+      const next = [...prev];
+      const [movedCat] = next.splice(fromIndex, 1);
+      next.splice(toIndex, 0, movedCat);
       return next;
     });
   };
